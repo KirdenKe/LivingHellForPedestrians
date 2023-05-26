@@ -44,7 +44,7 @@ namespace LivingHellForPedestrians
             var loadFile = new LoadFile();
             _ = loadFile.LoadAccident();
             test = new List<object>();
-            test = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(TPH); });
+            test = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Place); });
         }
     }
 }
