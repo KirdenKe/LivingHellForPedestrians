@@ -20,6 +20,7 @@ namespace LivingHellForPedestrians
     }
     public class AgeDead
     {
+        public int Year { get; set;  }
         public int under12years { get; set; }
         public int between12to17 { get; set; }
         public int between18to24 { get; set; }

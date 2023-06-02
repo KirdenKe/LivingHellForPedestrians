@@ -449,6 +449,21 @@ namespace LivingHellForPedestrians
                 var OtherInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
                 LivingHell.Add(new Tool(ToolType.Other, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(OtherAccidentTextSelector).InnerHtml.Replace(",", "")), int.Parse(document.QuerySelector(OtherDeathTextSelector).InnerHtml.Replace(",", "")), int.Parse(document.QuerySelector(OtherInjuredTextSelector).InnerHtml.Replace(",", ""))));
                 //unknown
+                url = new Url("https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=9701&ymt=11203&kind=21&type=1&funid=b330708&cycle=41&outmode=0&compmode=0&outkind=1&fldspc=0,7,&rdm=7jlkNeka");
+                document = await browser.OpenAsync(url);
+                MaxIndex = document.QuerySelector("body > form > table:nth-child(2) > tbody").ChildElementCount;
+                for (int i = 2; i < MaxIndex; i += 13)
+                {
+                    var YearTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > th", i);//事故年分
+                    var under12TextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(3)", i);
+                    var betweeen12to17Selector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(4)", i);
+                    var betweeen18to24Selector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(5)", i);
+                    var betweeen25to64Selector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(6)", i);
+                    var above65Selector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(7)", i);
+                    LivingHell.Add(new AgeDead(int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Replace(",", "")), int.Parse(document.QuerySelector(under12TextSelector).InnerHtml.Replace(",", "")),
+                                   int.Parse(document.QuerySelector(betweeen12to17Selector).InnerHtml.Replace(",", "")), int.Parse(document.QuerySelector(betweeen18to24Selector).InnerHtml.Replace(",", "")),
+                                   int.Parse(document.QuerySelector(betweeen25to64Selector).InnerHtml.Replace(",", "")), int.Parse(document.QuerySelector(above65Selector).InnerHtml.Replace(",", "")));
+                }
             }
 
             //釋放權柄
