@@ -31,24 +31,31 @@ namespace LivingHellForPedestrians
         KMN,//金門縣
         LNN//連江縣
     }
-    public class Place : ACCIDENT
+    public class Place : ACCIDENT, ChooseNumber
     {
+        internal class DRUNK
+        {
+            internal int AccidentNumber { get; set; }
+            internal int DeathToll { get; set; }
+            internal int InjuredNumber { get; set; }
+        }
+        DRUNK drunk = new DRUNK();
         public County county { get; set; }
         public int Year { get; set; }
         public int DrunkAccidentNum
         {
-            get { return DRUNK.AccidentNumber; }
-            set { DRUNK.AccidentNumber = value;}
+            get { return drunk.AccidentNumber; }
+            set { drunk.AccidentNumber = value; }
         }
         public int DrunkDeathNum
         {
-            get { return DRUNK.DeathToll; }
-            set { DRUNK.DeathToll = value; }
+            get { return drunk.DeathToll; }
+            set { drunk.DeathToll = value; }
         }
         public int DrunkInjuredNum
         {
-            get { return DRUNK.InjuredNumber; }
-            set { DRUNK.InjuredNumber = value; }
+            get { return drunk.InjuredNumber; }
+            set { drunk.InjuredNumber = value; }
         }
         public Place(County county, int year, int accident, int death, int injured)
         {
@@ -57,6 +64,19 @@ namespace LivingHellForPedestrians
             this.Year = year;
             this.DeathToll = death;
             this.InjuredNumber = injured;
+        }
+        public int Number(int index)
+        {
+            switch (index) 
+            {
+                case 0: return AccidentNumber;
+                case 1: return DeathToll;
+                case 2: return InjuredNumber;
+                case 3: return DrunkAccidentNum;
+                case 4: return DrunkDeathNum;
+                case 5: return DrunkInjuredNum;
+            }
+            return -1;
         }
     }
 }
