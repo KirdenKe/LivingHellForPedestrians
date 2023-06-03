@@ -60,6 +60,7 @@ namespace LivingHellForPedestrians
                 checkBox_ShowMap.Enabled = true;
                 comboBox_DisplayType.Enabled = true;
                 comboBox_years.Enabled = true;
+                comboBox_AgeDeath.Enabled = true;
                 listBox_DisplayType.Enabled = true;
                 listBox_years.Enabled = true;
                 comboBox_ToolType.Enabled = true;
@@ -71,6 +72,7 @@ namespace LivingHellForPedestrians
                 {
                     comboBox_years.Items.Add(i);
                     listBox_years.Items.Add(i);
+                    comboBox_AgeDeath.Items.Add(i);
                 }
                 comboBox_years.SelectedIndex = 0;
                 comboBox_DisplayType.SelectedIndex = 0;
@@ -141,7 +143,7 @@ namespace LivingHellForPedestrians
                 YearValue[i] = year;
                 foreach (Tool tool in tools)
                 {
-                    if(tool.Year ==  year && comboBox_ToolType.SelectedIndex == 7)
+                    if(tool.Year ==  year && (int)tool.Type == comboBox_ToolType.SelectedIndex)
                     {
                         for(int j = 0; j < listBox_DisplayType.SelectedIndices.Count; j++)
                         {
@@ -161,6 +163,22 @@ namespace LivingHellForPedestrians
             DeathSeries.Points.DataBindXY(YearValue, DeathValue);
             var InjuredSeries = chart_tool.Series[2];
             InjuredSeries.Points.DataBindXY(YearValue, InjuredValue);
+        }
+
+        private void comboBox_AgeDeath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (loadFile.LivingHell == null) return;
+            var ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
+            string[] AgeValue = new string[] { "~12", "12~17", "18~24", "25~64", "65~" };
+            foreach(AgeDead ageDead in ageDeadthes)
+            {
+                if(ageDead.Year == int.Parse(comboBox_AgeDeath.Text))
+                {
+                    int[] DeathValue = new int[] { ageDead.under12years, ageDead.between12to17, ageDead.between18to24, ageDead.between25to64, ageDead.upper65 };
+                    var AgeSeries = chart_AgeDeath.Series[0];
+                    AgeSeries.Points.DataBindXY(AgeValue, DeathValue);
+                }
+            }
         }
     }
 }

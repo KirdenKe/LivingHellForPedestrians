@@ -54,11 +54,14 @@ namespace LivingHellForPedestrians
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel = new System.Windows.Forms.Panel();
@@ -96,12 +99,16 @@ namespace LivingHellForPedestrians
             this.comboBox_ToolType = new System.Windows.Forms.ComboBox();
             this.listBox_years = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.comboBox_AgeDeath = new System.Windows.Forms.ComboBox();
+            this.chart_AgeDeath = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_taiwan)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_tool)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_AgeDeath)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -519,27 +526,27 @@ namespace LivingHellForPedestrians
             // 
             // chart_tool
             // 
-            chartArea1.Name = "ChartArea_tool";
-            this.chart_tool.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart_tool.Legends.Add(legend1);
+            chartArea6.Name = "ChartArea_tool";
+            this.chart_tool.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chart_tool.Legends.Add(legend6);
             this.chart_tool.Location = new System.Drawing.Point(288, 7);
             this.chart_tool.Name = "chart_tool";
-            series1.ChartArea = "ChartArea_tool";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Legend = "Legend1";
-            series1.Name = "Accident";
-            series2.ChartArea = "ChartArea_tool";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series2.Legend = "Legend1";
-            series2.Name = "Death";
-            series3.ChartArea = "ChartArea_tool";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series3.Legend = "Legend1";
-            series3.Name = "Injured";
-            this.chart_tool.Series.Add(series1);
-            this.chart_tool.Series.Add(series2);
-            this.chart_tool.Series.Add(series3);
+            series10.ChartArea = "ChartArea_tool";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series10.Legend = "Legend1";
+            series10.Name = "Accident";
+            series11.ChartArea = "ChartArea_tool";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series11.Legend = "Legend1";
+            series11.Name = "Death";
+            series12.ChartArea = "ChartArea_tool";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series12.Legend = "Legend1";
+            series12.Name = "Injured";
+            this.chart_tool.Series.Add(series10);
+            this.chart_tool.Series.Add(series11);
+            this.chart_tool.Series.Add(series12);
             this.chart_tool.Size = new System.Drawing.Size(573, 500);
             this.chart_tool.TabIndex = 3;
             this.chart_tool.Text = "chart1";
@@ -552,6 +559,7 @@ namespace LivingHellForPedestrians
             this.comboBox_ToolType.Name = "comboBox_ToolType";
             this.comboBox_ToolType.Size = new System.Drawing.Size(121, 27);
             this.comboBox_ToolType.TabIndex = 2;
+            this.comboBox_ToolType.SelectedIndexChanged += new System.EventHandler(this.listBox_Tool_SelectedIndexChanged);
             // 
             // listBox_years
             // 
@@ -568,11 +576,39 @@ namespace LivingHellForPedestrians
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.chart_AgeDeath);
+            this.tabPage3.Controls.Add(this.comboBox_AgeDeath);
             this.tabPage3.Location = new System.Drawing.Point(4, 28);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(867, 513);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "按死亡人數 - 年齡";
+            // 
+            // comboBox_AgeDeath
+            // 
+            this.comboBox_AgeDeath.Enabled = false;
+            this.comboBox_AgeDeath.FormattingEnabled = true;
+            this.comboBox_AgeDeath.Location = new System.Drawing.Point(4, 4);
+            this.comboBox_AgeDeath.Name = "comboBox_AgeDeath";
+            this.comboBox_AgeDeath.Size = new System.Drawing.Size(121, 27);
+            this.comboBox_AgeDeath.TabIndex = 0;
+            this.comboBox_AgeDeath.SelectedIndexChanged += new System.EventHandler(this.comboBox_AgeDeath_SelectedIndexChanged);
+            // 
+            // chart_AgeDeath
+            // 
+            chartArea5.Name = "ChartArea1";
+            this.chart_AgeDeath.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chart_AgeDeath.Legends.Add(legend5);
+            this.chart_AgeDeath.Location = new System.Drawing.Point(132, 4);
+            this.chart_AgeDeath.Name = "chart_AgeDeath";
+            series9.ChartArea = "ChartArea1";
+            series9.Legend = "Legend1";
+            series9.Name = "Death";
+            this.chart_AgeDeath.Series.Add(series9);
+            this.chart_AgeDeath.Size = new System.Drawing.Size(732, 506);
+            this.chart_AgeDeath.TabIndex = 1;
+            this.chart_AgeDeath.Text = "chart1";
             // 
             // Form1
             // 
@@ -593,6 +629,8 @@ namespace LivingHellForPedestrians
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_taiwan)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart_tool)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart_AgeDeath)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -636,6 +674,8 @@ namespace LivingHellForPedestrians
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_tool;
         private System.Windows.Forms.ComboBox comboBox_ToolType;
         private System.Windows.Forms.ListBox listBox_DisplayType;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_AgeDeath;
+        private System.Windows.Forms.ComboBox comboBox_AgeDeath;
     }
 }
 
