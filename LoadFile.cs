@@ -445,24 +445,24 @@ namespace LivingHellForPedestrians
                     var LocomotiveInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
                     LivingHell.Add(new Tool(ToolType.Locomotive, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(LocomotiveAccidentTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(LocomotiveDeathTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(LocomotiveInjuredTextSelector).InnerHtml.Replace(",", "").Replace("-", "0"))));
                     //bike 
-                    var BikeAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var BikeDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var BikeInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var BikeAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(9)", i);
+                    var BikeDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(9)", i);
+                    var BikeInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(9)", i);
                     LivingHell.Add(new Tool(ToolType.Bike, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(BikeAccidentTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(BikeDeathTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(BikeInjuredTextSelector).InnerHtml.Replace(",", "").Replace("-", "0"))));
                     //pedestrian
-                    var PedestrianAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var PedestrianDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var PedestrianInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var PedestrianAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(10)", i);
+                    var PedestrianDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(10)", i);
+                    var PedestrianInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(10)", i);
                     LivingHell.Add(new Tool(ToolType.Pedestrian, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(PedestrianAccidentTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(PedestrianDeathTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(PedestrianInjuredTextSelector).InnerHtml.Replace(",", "").Replace("-", "0"))));
                     //passenger
-                    var PassengerAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var PassengerDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var PassengerInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var PassengerAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(11)", i);
+                    var PassengerDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(11)", i);
+                    var PassengerInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(11)", i);
                     LivingHell.Add(new Tool(ToolType.Passenger, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(PassengerAccidentTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(PassengerDeathTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(PassengerInjuredTextSelector).InnerHtml.Replace(",", "").Replace("-", "0"))));
                     //other
-                    var OtherAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var OtherDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var OtherInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var OtherAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(12)", i);
+                    var OtherDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(12)", i);
+                    var OtherInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(12)", i);
                     LivingHell.Add(new Tool(ToolType.Other, int.Parse(document.QuerySelector(YearTextSelector).InnerHtml.Substring(0, 3).Replace("年", "")), int.Parse(document.QuerySelector(OtherAccidentTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(OtherDeathTextSelector).InnerHtml.Replace(",", "").Replace("-", "0")), int.Parse(document.QuerySelector(OtherInjuredTextSelector).InnerHtml.Replace(",", "").Replace("-", "0"))));
                     //unknown
                 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,7 +29,7 @@ namespace LivingHellForPedestrians
             radioButton_KMN.Parent = pictureBox_taiwan;
             radioButton_LNN.Parent = pictureBox_taiwan;
             radioButton_MAL.Parent = pictureBox_taiwan;
-            radioButton_NTC.Parent = pictureBox_taiwan;
+            radioButton_NTO.Parent = pictureBox_taiwan;
             radioButton_PEH.Parent = pictureBox_taiwan;
             radioButton_TNN.Parent = pictureBox_taiwan;
             radioButton_TPE.Parent = pictureBox_taiwan;
@@ -42,11 +43,15 @@ namespace LivingHellForPedestrians
             comboBox_DisplayType.Items.AddRange(AccidentType);
             listBox_DisplayType.Items.AddRange(ToolAccidentType);
             comboBox_ToolType.Items.AddRange(ToolType);
+            comboBox_UpdateType.Items.AddRange(PlaceType);
+            listBox_ShowUpdateType.Items.AddRange(AccidentType);
         }
 
         private void button_LoadFile_Click(object sender, EventArgs e)
         {
+            loadFile.LivingHell.Clear();
             _ = loadFile.LoadAccident();
+            button_LoadFile.Enabled = false;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -64,11 +69,19 @@ namespace LivingHellForPedestrians
                 listBox_DisplayType.Enabled = true;
                 listBox_years.Enabled = true;
                 comboBox_ToolType.Enabled = true;
+                radioButton_UpdatePlace.Enabled = true;
+                radioButton_UpdateTool.Enabled = true;
+                radioButton_UpdateAge.Enabled = true;
+                comboBox_UpdateType.Enabled = true;
+                listBox_ShowUpdateType.Enabled = true;
+                dataGridView_UpdateData.Enabled = true;
+                textBox_AddNumber.Enabled = true;
+                button_UpdateData.Enabled = true;
                 LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Place); });
                 var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
-                var minValue = places.Select<Place, int>(x => x.Year).Min();
-                var maxValue = places.Select<Place, int>(x => x.Year).Max();
-                for(int i = minValue; i < maxValue + 1; i ++)
+                minYearValue = places.Select<Place, int>(x => x.Year).Min();
+                maxYearValue = places.Select<Place, int>(x => x.Year).Max();
+                for(int i = minYearValue; i < maxYearValue + 1; i ++)
                 {
                     comboBox_years.Items.Add(i);
                     listBox_years.Items.Add(i);
@@ -82,6 +95,7 @@ namespace LivingHellForPedestrians
             {
                 MessageBox.Show(e.ErrorMessage, "錯誤！", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            button_LoadFile.Enabled = true;
         }
 
         private void checkBox_ShowMap_CheckedChanged(object sender, EventArgs e)
@@ -120,6 +134,111 @@ namespace LivingHellForPedestrians
                 {
                     if (place.county == County.TPH && place.Year == year)
                         label_ShowNumber.Text = String.Format("新北市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_KLU.Checked)
+                {
+                    if (place.county == County.KLU && place.Year == year)
+                        label_ShowNumber.Text = String.Format("基隆市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_TPE.Checked)
+                {
+                    if (place.county == County.TPE && place.Year == year)
+                        label_ShowNumber.Text = String.Format("臺北市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_TYC.Checked)
+                {
+                    if (place.county == County.TYC && place.Year == year)
+                        label_ShowNumber.Text = String.Format("桃園市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_HSH.Checked)
+                {
+                    if (place.county == County.HSH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("新竹縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_HSC.Checked)
+                {
+                    if (place.county == County.HSC && place.Year == year)
+                        label_ShowNumber.Text = String.Format("新竹市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_MAL.Checked)
+                {
+                    if (place.county == County.MAL && place.Year == year)
+                        label_ShowNumber.Text = String.Format("苗栗縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_TXG.Checked)
+                {
+                    if (place.county == County.TXG && place.Year == year)
+                        label_ShowNumber.Text = String.Format("臺中市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_CWH.Checked)
+                {
+                    if (place.county == County.CWH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("彰化縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_NTO.Checked)
+                {
+                    if (place.county == County.NTO && place.Year == year)
+                        label_ShowNumber.Text = String.Format("南投縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_YLH.Checked)
+                {
+                    if (place.county == County.YLH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("雲林縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_CHY.Checked)
+                {
+                    if (place.county == County.CHY && place.Year == year)
+                        label_ShowNumber.Text = String.Format("嘉義縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_CYI.Checked)
+                {
+                    if (place.county == County.CYI && place.Year == year)
+                        label_ShowNumber.Text = String.Format("嘉義市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_TNN.Checked)
+                {
+                    if (place.county == County.TNN && place.Year == year)
+                        label_ShowNumber.Text = String.Format("臺南市{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_KHH.Checked)
+                {
+                    if (place.county == County.KHH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("高雄縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_IUH.Checked)
+                {
+                    if (place.county == County.IUH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("屏東縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_ILN.Checked)
+                {
+                    if (place.county == County.ILN && place.Year == year)
+                        label_ShowNumber.Text = String.Format("宜蘭縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_HWA.Checked)
+                {
+                    if (place.county == County.HWA && place.Year == year)
+                        label_ShowNumber.Text = String.Format("花蓮縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_TTT.Checked)
+                {
+                    if (place.county == County.TTT && place.Year == year)
+                        label_ShowNumber.Text = String.Format("臺東縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_PEH.Checked)
+                {
+                    if (place.county == County.PEH && place.Year == year)
+                        label_ShowNumber.Text = String.Format("澎湖縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_KMN.Checked)
+                {
+                    if (place.county == County.KMN && place.Year == year)
+                        label_ShowNumber.Text = String.Format("金門縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
+                }
+                if (radioButton_LNN.Checked)
+                {
+                    if (place.county == County.LNN && place.Year == year)
+                        label_ShowNumber.Text = String.Format("連江縣{0}：\r\n{1}", comboBox_DisplayType.Text, place.Number(AccidentTypeIndex));
                 }
             }
         }
@@ -179,6 +298,58 @@ namespace LivingHellForPedestrians
                     AgeSeries.Points.DataBindXY(AgeValue, DeathValue);
                 }
             }
+        }
+
+        private void radioButton_Update_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox_UpdateType.Items.Clear();
+            listBox_ShowUpdateType.Items.Clear();
+            textBox_AddNumber.Enabled = true;
+            if(radioButton_UpdatePlace.Checked)
+            {
+                comboBox_UpdateType.Items.AddRange(PlaceType);
+                listBox_ShowUpdateType.Items.AddRange(AccidentType);
+                LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Place); });
+                    
+            }
+            if(radioButton_UpdateTool.Checked)
+            {
+                comboBox_UpdateType.Items.AddRange(ToolType);
+                listBox_ShowUpdateType.Items.AddRange(ToolAccidentType);
+                LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Tool); });
+            }
+            if(radioButton_UpdateAge.Checked)
+            {
+                textBox_AddNumber.Enabled = false;
+                LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
+            }
+        }
+
+        private void Update_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dataTable = new DataTable();
+            if(radioButton_UpdatePlace.Checked)
+            {
+                var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
+                for (int i = minYearValue; i < maxYearValue + 1; i++)
+                {
+                    dataTable.Columns.Add(i.ToString(), typeof(int));
+                }
+                for (int i = 0; i < listBox_ShowUpdateType.SelectedIndices.Count; i++)
+                {
+                    var row = dataTable.NewRow();
+                    for (int j = 0; j < maxYearValue - minYearValue + 1; j++)
+                    {
+                        foreach(Place place in places)
+                        {
+                            if((int)place.county == comboBox_UpdateType.SelectedIndex && place.Year == minYearValue + j)
+                                row[j] = place.Number(listBox_ShowUpdateType.SelectedIndices[i]);
+                        }
+                    }
+                    dataTable.Rows.Add(row);
+                }
+            }
+            dataGridView_UpdateData.DataSource = dataTable;
         }
     }
 }
