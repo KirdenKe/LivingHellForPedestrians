@@ -63,6 +63,13 @@ namespace LivingHellForPedestrians
             "金門縣",
             "連江縣"
         };
+        string[] AgeRange = new string[] {
+            "~12",
+            "12~17",
+            "18~24",
+            "25~64",
+            "65~"
+        };
 
         /// <summary>
         /// 清除任何使用中的資源。
@@ -702,6 +709,7 @@ namespace LivingHellForPedestrians
             this.button_UpdateData.TabIndex = 8;
             this.button_UpdateData.Text = "更新資料";
             this.button_UpdateData.UseVisualStyleBackColor = true;
+            this.button_UpdateData.Click += new System.EventHandler(this.button_UpdateData_Click);
             // 
             // textBox_AddNumber
             // 

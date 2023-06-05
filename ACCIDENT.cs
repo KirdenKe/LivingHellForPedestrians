@@ -29,6 +29,18 @@ namespace LivingHellForPedestrians
             this.between25to64 = between25to64;
             this.upper65 = upper65;
         }
+        public int Number(int index)
+        {
+            switch (index)
+            {
+                case 0: return under12years;
+                case 1: return between12to17;
+                case 2: return between18to24;
+                case 3: return between25to64;
+                case 4: return upper65;
+            }
+            return -1;
+        }
     }
     interface ChooseNumber
     {

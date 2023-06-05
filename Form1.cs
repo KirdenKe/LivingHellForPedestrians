@@ -322,6 +322,30 @@ namespace LivingHellForPedestrians
             {
                 textBox_AddNumber.Enabled = false;
                 LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
+                dataTable = new DataTable();
+                var ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
+                for (int i = minYearValue; i < maxYearValue + 1; i++)
+                {
+                    dataTable.Columns.Add(i.ToString(), typeof(int));
+                }
+                for (int i = 0; i < AgeRange.Length; i++)
+                {
+                    var row = dataTable.NewRow();
+                    for (int j = minYearValue; j < maxYearValue + 1; j++)
+                    {
+                        foreach (AgeDead ageDead in ageDeadthes)
+                        {
+                            if (ageDead.Year == j)
+                                row[j - minYearValue] = ageDead.Number(i);
+                        }
+                    }
+                    dataTable.Rows.Add(row);
+                }
+                dataGridView_UpdateData.DataSource = dataTable;
+                for (int i = 0; i < dataGridView_UpdateData.Rows.Count - 1; i++)
+                {
+                    dataGridView_UpdateData.Rows[i].HeaderCell.Value = AgeRange[i];
+                }
             }
         }
 
@@ -349,7 +373,77 @@ namespace LivingHellForPedestrians
                     dataTable.Rows.Add(row);
                 }
             }
+            if(radioButton_UpdateTool.Checked)
+            {
+                var tools = LivingHellSelect.Select<object, Tool>(x => (Tool)x);
+                for (int i = minYearValue; i < maxYearValue + 1; i++)
+                {
+                    dataTable.Columns.Add(i.ToString(), typeof(int));
+                }
+                for (int i = 0; i < listBox_ShowUpdateType.SelectedIndices.Count; i++)
+                {
+                    var row = dataTable.NewRow();
+                    for (int j = 0; j < maxYearValue - minYearValue + 1; j++)
+                    {
+                        foreach (Tool tool in tools)
+                        {
+                            if ((int)tool.Type == comboBox_UpdateType.SelectedIndex && tool.Year == minYearValue + j)
+                                row[j] = tool.Number(listBox_ShowUpdateType.SelectedIndices[i]);
+                        }
+                    }
+                    dataTable.Rows.Add(row);
+                }
+            }
             dataGridView_UpdateData.DataSource = dataTable;
+        }
+
+        private void button_UpdateData_Click(object sender, EventArgs e)
+        {
+            if(textBox_AddNumber.Text != null && textBox_AddNumber.Text != "0")
+            {
+                if(listBox_ShowUpdateType.SelectedIndices.Count == 1)
+                {
+                    if (radioButton_UpdatePlace.Checked)
+                    {
+                        var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
+                        foreach (Place place in places)
+                        {
+                            if ((int)place.county == comboBox_UpdateType.SelectedIndex && place.Year == maxYearValue)
+                            {
+                                int i = loadFile.LivingHell.IndexOf(place);
+                                place.listBoxIndex = listBox_ShowUpdateType.SelectedIndex;
+                                if(int.TryParse(textBox_AddNumber.Text, out int NewNumber))
+                                {
+                                    loadFile.LivingHell[i] = place + NewNumber;
+                                }
+                            }
+                        }
+                    }
+                    if(radioButton_UpdateTool.Checked)
+                    {
+                        var tools = LivingHellSelect.Select<object, Tool>(x => (Tool)x);
+                        foreach (Tool tool in tools)
+                        {
+                            if ((int)tool.Type == comboBox_UpdateType.SelectedIndex && tool.Year == maxYearValue)
+                            {
+                                int i = loadFile.LivingHell.IndexOf(tool);
+                                tool.listBoxIndex = listBox_ShowUpdateType.SelectedIndex;
+                                if (int.TryParse(textBox_AddNumber.Text, out int NewNumber))
+                                {
+                                    loadFile.LivingHell[i] = tool + NewNumber;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                    MessageBox.Show("請只選擇一個項目！", "警告！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                var currenDataTable = (DataTable)dataGridView_UpdateData.DataSource;
+            }
+            Update_SelectedIndexChanged(sender, e);
         }
     }
 }

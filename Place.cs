@@ -57,6 +57,7 @@ namespace LivingHellForPedestrians
             get { return drunk.InjuredNumber; }
             set { drunk.InjuredNumber = value; }
         }
+        public int listBoxIndex = -1;
         public Place(County county, int year, int accident, int death, int injured)
         {
             this.county = county;
@@ -77,6 +78,22 @@ namespace LivingHellForPedestrians
                 case 5: return DrunkInjuredNum;
             }
             return -1;
+        }
+        public static Place operator +(Place place, int NewNumber)
+        {
+            if (place.listBoxIndex == 0)
+                place.AccidentNumber += NewNumber;
+            else if(place.listBoxIndex == 1)
+                place.DeathToll += NewNumber;
+            else if (place.listBoxIndex == 2)
+                place.InjuredNumber += NewNumber;
+            else if (place.listBoxIndex == 3)
+                place.drunk.AccidentNumber += NewNumber;
+            else if (place.listBoxIndex == 4)
+                place.drunk.DeathToll += NewNumber;
+            else if (place.listBoxIndex == 5)
+                place.drunk.InjuredNumber += NewNumber;
+            return place;
         }
     }
 }

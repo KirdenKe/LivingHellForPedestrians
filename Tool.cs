@@ -24,6 +24,7 @@ namespace LivingHellForPedestrians
     {
         public ToolType Type { get; set;}
         public int Year { get; set; }
+        public int listBoxIndex = -1;
         public Tool(ToolType type, int year, int accident, int death, int injured)
         {
             this.Type = type;
@@ -41,6 +42,16 @@ namespace LivingHellForPedestrians
                 case 2: return InjuredNumber;
             }
             return -1;
+        }
+        public static Tool operator +(Tool tool, int NewNumber)
+        {
+            if (tool.listBoxIndex == 0)
+                tool.AccidentNumber += NewNumber;
+            else if (tool.listBoxIndex == 1)
+                tool.DeathToll += NewNumber;
+            else if (tool.listBoxIndex == 2)
+                tool.InjuredNumber += NewNumber;
+            return tool;
         }
     }
 }
