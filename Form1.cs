@@ -399,7 +399,7 @@ namespace LivingHellForPedestrians
 
         private void button_UpdateData_Click(object sender, EventArgs e)
         {
-            if(textBox_AddNumber.Text != null && textBox_AddNumber.Text != "0")
+            if(textBox_AddNumber.Text != "" && textBox_AddNumber.Text != "0")
             {
                 if(listBox_ShowUpdateType.SelectedIndices.Count == 1)
                 {
@@ -435,13 +435,13 @@ namespace LivingHellForPedestrians
                             }
                         }
                     }
+                    textBox_AddNumber.Text = "";
                 }
                 else
                     MessageBox.Show("請只選擇一個項目！", "警告！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                var currenDataTable = (DataTable)dataGridView_UpdateData.DataSource;
                 //IEnumerable<Tool> tools; IEnumerable<AgeDead> ageDeadthes;
                 //if (radioButton_UpdatePlace.Checked)
                 //    places = LivingHellSelect.Select<object, Place>(x => (Place)x);
@@ -451,20 +451,22 @@ namespace LivingHellForPedestrians
                 //    ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
                 for (int i = 0; i < dataTable.Rows.Count; i++) 
                 {
-                    for(int j = 0; j < dataTable.Columns.Count; i++)
+                    for(int j = 0; j < dataTable.Columns.Count; j++)
                     {
-                        if (dataTable.Rows[i][j] != currenDataTable.Rows[i][j])
+                        if(radioButton_UpdatePlace.Checked) 
                         {
-                            if (radioButton_UpdatePlace.Checked)
+                            var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
+                            foreach (Place place in places)
                             {
-                                var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
-                                foreach (Place place in places) 
+                                if (place.Year == j + minYearValue && (int)place.county == comboBox_UpdateType.SelectedIndex)
                                 {
-                                    if(place.Year == j + minYearValue)
+                                    if ((int)dataTable.Rows[i][j] != place.Number(listBox_ShowUpdateType.SelectedIndices[i]))
                                     {
+                                        int k = loadFile.LivingHell.IndexOf(place);
                                         place.listBoxIndex = listBox_ShowUpdateType.SelectedIndices[i];
-                                        place.newNumber = (int)currenDataTable.Rows[i][j];
+                                        place.newNumber = (int)dataTable.Rows[i][j];
                                         place.UpdateData();
+                                        loadFile.LivingHell[k] = place;
                                     }
                                 }
                             }

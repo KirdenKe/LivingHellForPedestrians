@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static LivingHellForPedestrians.Place;
 
 namespace LivingHellForPedestrians
 {
@@ -25,6 +27,7 @@ namespace LivingHellForPedestrians
         public ToolType Type { get; set;}
         public int Year { get; set; }
         public int listBoxIndex = -1;
+        public int newNumber = 0;
         public Tool(ToolType type, int year, int accident, int death, int injured)
         {
             this.Type = type;
@@ -52,6 +55,24 @@ namespace LivingHellForPedestrians
             else if (tool.listBoxIndex == 2)
                 tool.InjuredNumber += NewNumber;
             return tool;
+        }
+        public override void updateData(out int index, out int NewNumber)
+        {
+            index = listBoxIndex;
+            if (newNumber >= 0)
+                NewNumber = newNumber;
+            else
+                NewNumber = 0;
+        }
+        public void UpdateData()
+        {
+            updateData(out int i, out int newNum);
+            if (i == 0)
+                AccidentNumber = newNum;
+            else if (i == 1)
+                DeathToll = newNum;
+            else if (i == 2)
+                InjuredNumber = newNum;
         }
     }
 }
