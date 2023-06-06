@@ -11,6 +11,10 @@ namespace LivingHellForPedestrians
         public int AccidentNumber { get; set; }
         public int DeathToll { get; set; }
         public int InjuredNumber { get; set; }
+        public virtual void updateData(out int index, out int NewNumber)
+        {
+            index = new int(); NewNumber = new int();
+        }
     }
     public class AgeDead
     {

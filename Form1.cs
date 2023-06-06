@@ -442,6 +442,35 @@ namespace LivingHellForPedestrians
             else
             {
                 var currenDataTable = (DataTable)dataGridView_UpdateData.DataSource;
+                //IEnumerable<Tool> tools; IEnumerable<AgeDead> ageDeadthes;
+                //if (radioButton_UpdatePlace.Checked)
+                //    places = LivingHellSelect.Select<object, Place>(x => (Place)x);
+                //if (radioButton_UpdateTool.Checked)
+                //    tools = LivingHellSelect.Select<object, Tool>(x => (Tool)x);
+                //if (radioButton_UpdateAge.Checked)
+                //    ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
+                for (int i = 0; i < dataTable.Rows.Count; i++) 
+                {
+                    for(int j = 0; j < dataTable.Columns.Count; i++)
+                    {
+                        if (dataTable.Rows[i][j] != currenDataTable.Rows[i][j])
+                        {
+                            if (radioButton_UpdatePlace.Checked)
+                            {
+                                var places = LivingHellSelect.Select<object, Place>(x => (Place)x);
+                                foreach (Place place in places) 
+                                {
+                                    if(place.Year == j + minYearValue)
+                                    {
+                                        place.listBoxIndex = listBox_ShowUpdateType.SelectedIndices[i];
+                                        place.newNumber = (int)currenDataTable.Rows[i][j];
+                                        place.UpdateData();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             Update_SelectedIndexChanged(sender, e);
         }

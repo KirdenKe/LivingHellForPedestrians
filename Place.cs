@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,6 +59,7 @@ namespace LivingHellForPedestrians
             set { drunk.InjuredNumber = value; }
         }
         public int listBoxIndex = -1;
+        public int newNumber = 0;
         public Place(County county, int year, int accident, int death, int injured)
         {
             this.county = county;
@@ -94,6 +96,30 @@ namespace LivingHellForPedestrians
             else if (place.listBoxIndex == 5)
                 place.drunk.InjuredNumber += NewNumber;
             return place;
+        }
+        public override void updateData(out int index, out int NewNumber)
+        {
+            index = listBoxIndex;
+            if (newNumber >= 0)
+                NewNumber = newNumber;
+            else
+                NewNumber = 0;
+        }
+        public void UpdateData()
+        {
+            updateData(out int i, out int newNum);
+            if (i == 0)
+                AccidentNumber = newNum;
+            else if (i == 1)
+                DeathToll = newNum;
+            else if (i == 2)
+                InjuredNumber = newNum;
+            else if (i == 3)
+                drunk.AccidentNumber = newNum;
+            else if (i == 4)
+                drunk.DeathToll = newNum;
+            else if (i == 5)
+                drunk.InjuredNumber = newNum;
         }
     }
 }
