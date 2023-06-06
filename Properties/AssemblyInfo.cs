@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("LivingHellForPedestrians")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("行人地獄")]
+[assembly: AssemblyDescription("行人地獄")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LivingHellForPedestrians")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCompany("NCU")]
+[assembly: AssemblyProduct("Living Hell For Pedestrians")]
+[assembly: AssemblyCopyright("NCU KirdenKe and qqtrgbv Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

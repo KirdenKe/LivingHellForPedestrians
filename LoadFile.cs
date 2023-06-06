@@ -94,8 +94,8 @@ namespace LivingHellForPedestrians
                     var TNNInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(7)", i);
                     //高雄市
                     var KHHAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var KHHDeathTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
-                    var KHHInjuredTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var KHHDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
+                    var KHHInjuredTextSelector = String.Format("body > form > table:nth-child(4) > tbody > tr:nth-child({0}) > td:nth-child(8)", i);
                     //屏東縣
                     var IUHAccidentTextSelector = String.Format("body > form > table:nth-child(2) > tbody > tr:nth-child({0}) > td:nth-child(16)", i);
                     var IUHDeathTextSelector = String.Format("body > form > table:nth-child(3) > tbody > tr:nth-child({0}) > td:nth-child(16)", i);

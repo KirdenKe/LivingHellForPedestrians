@@ -111,11 +111,30 @@ namespace LivingHellForPedestrians
             if(loadFile.LivingHell != null)
             {
                 if(tabControl.SelectedIndex == 0)
+                {
                     LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Place); });
+                    ChangedData();
+                }
                 else if(tabControl.SelectedIndex == 1)
+                {
                     LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Tool); });
+                    listBox_Tool_SelectedIndexChanged(sender, e);
+                }
+                    
                 else if(tabControl.SelectedIndex == 2)
+                {
                     LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
+                    comboBox_AgeDeath_SelectedIndexChanged(sender, e);
+                }
+                else if(tabControl.SelectedIndex == 3)
+                {
+                    if(radioButton_UpdatePlace.Checked)
+                        LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Place); });
+                    if(radioButton_UpdateTool.Checked)
+                        LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(Tool); });
+                    if(radioButton_UpdateAge.Checked)
+                        LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
+                }
             }
         }
 
@@ -291,11 +310,14 @@ namespace LivingHellForPedestrians
             string[] AgeValue = new string[] { "~12", "12~17", "18~24", "25~64", "65~" };
             foreach(AgeDead ageDead in ageDeadthes)
             {
-                if(ageDead.Year == int.Parse(comboBox_AgeDeath.Text))
+                if(comboBox_AgeDeath.Text != "")
                 {
-                    int[] DeathValue = new int[] { ageDead.under12years, ageDead.between12to17, ageDead.between18to24, ageDead.between25to64, ageDead.upper65 };
-                    var AgeSeries = chart_AgeDeath.Series[0];
-                    AgeSeries.Points.DataBindXY(AgeValue, DeathValue);
+                    if (ageDead.Year == int.Parse(comboBox_AgeDeath.Text))
+                    {
+                        int[] DeathValue = new int[] { ageDead.under12years, ageDead.between12to17, ageDead.between18to24, ageDead.between25to64, ageDead.upper65 };
+                        var AgeSeries = chart_AgeDeath.Series[0];
+                        AgeSeries.Points.DataBindXY(AgeValue, DeathValue);
+                    }
                 }
             }
         }
@@ -320,32 +342,7 @@ namespace LivingHellForPedestrians
             }
             if(radioButton_UpdateAge.Checked)
             {
-                textBox_AddNumber.Enabled = false;
-                LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
-                dataTable = new DataTable();
-                var ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
-                for (int i = minYearValue; i < maxYearValue + 1; i++)
-                {
-                    dataTable.Columns.Add(i.ToString(), typeof(int));
-                }
-                for (int i = 0; i < AgeRange.Length; i++)
-                {
-                    var row = dataTable.NewRow();
-                    for (int j = minYearValue; j < maxYearValue + 1; j++)
-                    {
-                        foreach (AgeDead ageDead in ageDeadthes)
-                        {
-                            if (ageDead.Year == j)
-                                row[j - minYearValue] = ageDead.Number(i);
-                        }
-                    }
-                    dataTable.Rows.Add(row);
-                }
-                dataGridView_UpdateData.DataSource = dataTable;
-                for (int i = 0; i < dataGridView_UpdateData.Rows.Count - 1; i++)
-                {
-                    dataGridView_UpdateData.Rows[i].HeaderCell.Value = AgeRange[i];
-                }
+                AgeDeathDataUpdate();
             }
         }
 
@@ -393,6 +390,10 @@ namespace LivingHellForPedestrians
                     }
                     dataTable.Rows.Add(row);
                 }
+            }
+            if(radioButton_UpdateAge.Checked)
+            {
+                AgeDeathDataUpdate();
             }
             dataGridView_UpdateData.DataSource = dataTable;
         }
@@ -442,13 +443,6 @@ namespace LivingHellForPedestrians
             }
             else
             {
-                //IEnumerable<Tool> tools; IEnumerable<AgeDead> ageDeadthes;
-                //if (radioButton_UpdatePlace.Checked)
-                //    places = LivingHellSelect.Select<object, Place>(x => (Place)x);
-                //if (radioButton_UpdateTool.Checked)
-                //    tools = LivingHellSelect.Select<object, Tool>(x => (Tool)x);
-                //if (radioButton_UpdateAge.Checked)
-                //    ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
                 for (int i = 0; i < dataTable.Rows.Count; i++) 
                 {
                     for(int j = 0; j < dataTable.Columns.Count; j++)
@@ -471,10 +465,102 @@ namespace LivingHellForPedestrians
                                 }
                             }
                         }
+                        if (radioButton_UpdateTool.Checked)
+                        {
+                            var tools = LivingHellSelect.Select<object, Tool>(x => (Tool)x);
+                            foreach (Tool tool in tools)
+                            {
+                                if (tool.Year == j + minYearValue && (int)tool.Type == comboBox_UpdateType.SelectedIndex)
+                                {
+                                    if ((int)dataTable.Rows[i][j] != tool.Number(listBox_ShowUpdateType.SelectedIndices[i]))
+                                    {
+                                        int k = loadFile.LivingHell.IndexOf(tool);
+                                        tool.listBoxIndex = listBox_ShowUpdateType.SelectedIndices[i];
+                                        tool.newNumber = (int)dataTable.Rows[i][j];
+                                        tool.UpdateData();
+                                        loadFile.LivingHell[k] = tool;
+                                    }
+                                }
+                            }
+                        }
+                        if(radioButton_UpdateAge.Checked)
+                        {
+                            var ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
+                            foreach (AgeDead ageDead in ageDeadthes)
+                            {
+                                if(ageDead.Year == j + minYearValue)
+                                {
+                                    if(i == 0)
+                                        if ((int)dataTable.Rows[i][j] != ageDead.under12years)
+                                        {
+                                            int k = loadFile.LivingHell.IndexOf(ageDead);
+                                            ageDead.under12years = (int)dataTable.Rows[i][j];
+                                            loadFile.LivingHell[k] = ageDead;
+                                        }
+                                    if (i == 1)
+                                        if ((int)dataTable.Rows[i][j] != ageDead.between12to17)
+                                            {
+                                                int k = loadFile.LivingHell.IndexOf(ageDead);
+                                                ageDead.between12to17 = (int)dataTable.Rows[i][j];
+                                                loadFile.LivingHell[k] = ageDead;
+                                            }
+                                    if (i == 2)
+                                        if ((int)dataTable.Rows[i][j] != ageDead.between18to24)
+                                            {
+                                                int k = loadFile.LivingHell.IndexOf(ageDead);
+                                                ageDead.between18to24 = (int)dataTable.Rows[i][j];
+                                                loadFile.LivingHell[k] = ageDead;
+                                            }
+                                    if (i == 3)
+                                        if ((int)dataTable.Rows[i][j] != ageDead.between25to64)
+                                            {
+                                                int k = loadFile.LivingHell.IndexOf(ageDead);
+                                                ageDead.between25to64 = (int)dataTable.Rows[i][j];
+                                                loadFile.LivingHell[k] = ageDead;
+                                            }
+                                    if (i == 4)
+                                        if ((int)dataTable.Rows[i][j] != ageDead.upper65)
+                                            {
+                                                int k = loadFile.LivingHell.IndexOf(ageDead);
+                                                ageDead.upper65 = (int)dataTable.Rows[i][j];
+                                                loadFile.LivingHell[k] = ageDead;
+                                            }
+                                }
+                            }
+                        }
                     }
                 }
             }
             Update_SelectedIndexChanged(sender, e);
+        }
+        private void AgeDeathDataUpdate()
+        {
+            textBox_AddNumber.Enabled = false;
+            LivingHellSelect = loadFile.LivingHell.FindAll(delegate (Object obj) { return obj.GetType() == typeof(AgeDead); });
+            dataTable = new DataTable();
+            var ageDeadthes = LivingHellSelect.Select<object, AgeDead>(x => (AgeDead)x);
+            for (int i = minYearValue; i < maxYearValue + 1; i++)
+            {
+                dataTable.Columns.Add(i.ToString(), typeof(int));
+            }
+            for (int i = 0; i < AgeRange.Length; i++)
+            {
+                var row = dataTable.NewRow();
+                for (int j = minYearValue; j < maxYearValue + 1; j++)
+                {
+                    foreach (AgeDead ageDead in ageDeadthes)
+                    {
+                        if (ageDead.Year == j)
+                            row[j - minYearValue] = ageDead.Number(i);
+                    }
+                }
+                dataTable.Rows.Add(row);
+            }
+            dataGridView_UpdateData.DataSource = dataTable;
+            for (int i = 0; i < dataGridView_UpdateData.Rows.Count - 1; i++)
+            {
+                dataGridView_UpdateData.Rows[i].HeaderCell.Value = AgeRange[i];
+            }
         }
     }
 }
